@@ -1,5 +1,7 @@
 import { isEmail, isEmpty, validate } from "class-validator";
 import { Request, Router, Response } from "express";
+import userMiddleWare from "../middlewares/user";
+import authMiddleWare from "../middlewares/auth";
 import { User } from "../entities/User";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
@@ -10,6 +12,12 @@ const mapError = (errors : Object[]) => {
     prev[err.property] = Object.entries(err.constraints)[0][1]
     return prev;
   },{})
+}
+
+
+const me = async(_:Request, res: Response) => {
+  console.log("me!")
+  return res.json(res.locals.user)
 }
 
 
@@ -76,10 +84,11 @@ const login = async(req: Request, res: Response) => {
       return res.status(401).json({password : "비밀번호가 잘못되었습니다."});
     }
     // 비밀번호가 맞다면 토큰생성
-    const token = jwt.sign({email}, process.env.JWT_SECRET)
+    const token = jwt.sign({ email }, process.env.JWT_SECRET)
 
+    console.log(token)
     // 쿠키저장
-    res.set("Ian-Cookie", cookie.serialize("token", token,
+    res.set("Set-Cookie", cookie.serialize("token", token,
       {
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 7,
@@ -94,6 +103,7 @@ const login = async(req: Request, res: Response) => {
 }
 const router = Router();
 
+router.get("/me", userMiddleWare, authMiddleWare, me)
 router.post("/register", register)
 router.post("/login", login)
 

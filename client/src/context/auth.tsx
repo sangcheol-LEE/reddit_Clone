@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 import {User} from "../types"
 import Axios from "axios";
 
@@ -58,7 +58,21 @@ export const AuthProvider = ({children} : {children: React.ReactNode}) => {
    const dispatch = (type: string , payload?: any) => {
       defaultDispatch({type, payload})
    }
-   console.log("state",state)
+
+   useEffect(() => {
+      async function loadUser() {
+         try {
+            const response = await Axios.get("/auth/me");
+            dispatch("LOGIN", response.data)
+         }catch(e) {
+            console.log("loadUser",e)
+         }finally {
+            dispatch("STOP_LOADING");
+         }
+      }
+      loadUser()
+   }, [])
+
    return (
       <DispatchContext.Provider value={dispatch}>
          <StateContext.Provider value={state}>{children}</StateContext.Provider>

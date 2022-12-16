@@ -1,29 +1,31 @@
-import React,{FormEvent, useState} from 'react';
+import React,{FormEvent, use, useState} from 'react';
 import InputGroup from '../components/InputGroup';
 import Link from 'next/link';
 import Axios from "axios"
 import { useRouter } from 'next/router';
-import { useAuthDispatch } from '../context/auth';
+import { useAuthDispatch, useAuthState } from '../context/auth';
 
 const Login = () => {
-   const router = useRouter()
-   const [email, setEmail] = useState("");
-   const [password, setPassword] = useState("");
-   const [errors, setErrors] = useState<any>({})
+  const router = useRouter()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<any>({})
+  const {authenticated} = useAuthState();
+  const dispatch = useAuthDispatch();
 
-   const dispatch = useAuthDispatch();
+  if(authenticated) router.push("/");
 
-   const handleSubmit = async(event: FormEvent) => {
-      event.preventDefault()
-      try {
-         const res = await Axios.post("/auth/login",{ password,email },{withCredentials: true})
-         dispatch("LOGIN", res.data?.user)
-         router.push("/")
-      }catch(error) {
-         console.log(error)
-         setErrors(error?.response?.data || {});
-      }
-   }
+  const handleSubmit = async(event: FormEvent) => {
+    event.preventDefault()
+    try {
+        const res = await Axios.post("/auth/login",{ password,email },{withCredentials: true})
+        dispatch("LOGIN", res.data?.user)
+        router.push("/")
+    }catch(error) {
+        console.log(error)
+        setErrors(error?.response?.data || {});
+    }
+  }
 
    return (
       <div className="bg-white">

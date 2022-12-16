@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth";
 import subRoutes from "./routes/subs";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const origin = "http://localhost:3000";
@@ -13,10 +14,10 @@ app.use(cors({
   credentials: true
 }))
 // json 형식으로 요청오는 걸 해석해줌
+dotenv.config();
 app.use(express.json());
 app.use(morgan("dev"));
-
-dotenv.config();
+app.use(cookieParser());
 
 app.get("/",(_, res) => res.send("running"));
 app.use("/api/auth", authRoutes);
