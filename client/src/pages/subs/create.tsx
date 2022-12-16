@@ -1,18 +1,23 @@
+import { useRouter } from 'next/router';
 import React,{FormEvent, useState} from 'react';
 import InputGroup from '../../components/InputGroup';
+import Axios from "axios";
 
 const SubCreate = () => {
    const [name, setName] = useState("");
    const [title, setTitle] = useState("");
    const [description, setDescription] = useState("");
    const [errors, setErrors] = useState<any>({});
+   const router = useRouter();
 
-   const handleSubmit = (event:FormEvent) => {
-      event.preventDefault()
+   const handleSubmit = async(e:FormEvent) => {
+      e.preventDefault()
       try{
-
-      }catch(e) {
-         console.error(e)
+         const res = await Axios.post("/subs", {name, title, description});
+         router.push(`/r/${res.data.name}`)
+      }catch(error: any) {
+         console.log(error)
+         setErrors(error.response.data)
       }
    }
    return (
