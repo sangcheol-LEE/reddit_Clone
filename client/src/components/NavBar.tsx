@@ -1,10 +1,24 @@
 import Link from 'next/link';
 import React, { Fragment } from 'react';
-import { useAuthState } from '../context/auth';
-
+import { useAuthDispatch, useAuthState } from '../context/auth';
+import Axios from 'axios';
 const NavBar:React.FC = () => {
    const {loading, authenticated} = useAuthState();
-   const handleLogout = () => {}
+   const dispatch = useAuthDispatch()
+   const handleLogout = () => {
+      try{
+         Axios.post("/auth/logout")
+            .then(() => {
+               dispatch("LOGOUT");
+               window.location.reload()
+            })
+            .catch(e => {
+               console.log(e)
+            })
+      }catch(e) {
+         console.log("handleLogout",e)
+      }
+   }
 
    return (
       <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between h-16 px-5 bg-white">

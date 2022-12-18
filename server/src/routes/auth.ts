@@ -1,4 +1,4 @@
-import { isEmail, isEmpty, validate } from "class-validator";
+import { isEmpty, validate } from "class-validator";
 import { Request, Router, Response } from "express";
 import userMiddleWare from "../middlewares/user";
 import authMiddleWare from "../middlewares/auth";
@@ -80,6 +80,8 @@ const login = async(req: Request, res: Response) => {
     const passwordMatches = await bcrypt.compare(password, user.password)
 
     // 비밀번호가 다르다면 에러 보내기
+
+
     if(!passwordMatches) {
       return res.status(401).json({password : "비밀번호가 잘못되었습니다."});
     }
@@ -101,11 +103,27 @@ const login = async(req: Request, res: Response) => {
     return res.status(500).json(error)
   }
 }
+
+const logout = async(_: Request, res: Response) => {
+  res.set(
+    "Set-Cookie",
+    cookie.serialize("token", "" ,{
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite:"strict",
+      expires: new Date(0),
+      path: "/",
+    })
+  )
+  res.status(200).json({success : true});
+}
+
 const router = Router();
 
 router.get("/me", userMiddleWare, authMiddleWare, me)
 router.post("/register", register)
 router.post("/login", login)
+router.post("/logout", userMiddleWare, authMiddleWare,logout)
 
 
 export default router

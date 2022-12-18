@@ -34,7 +34,7 @@ const userReducer = (state: State, {type,payload}:Action) => {
          return {
             ...state,
             authenticated : false,
-            user : undefined,
+            user : null,
          }
       case "STOP_LOADING" :
          return {
