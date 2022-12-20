@@ -8,8 +8,8 @@ import Post from "../entities/Post";
 import { User } from "../entities/User";
 import { NextFunction } from "express-serve-static-core";
 import multer,{FileFilterCallback} from "multer";
+import path from "path";
 import { makeId } from "../utils/helper";
-import path from "path/posix";
 import { unlinkSync } from "fs";
 
 const getSub = async(req:Request, res: Response) => {
