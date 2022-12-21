@@ -47,7 +47,7 @@ const SubPage = () => {
          fileInput.name = type
          fileInput.click();
       }
-    }
+   }
    console.log("subName",subName)
 
    const {data: sub, error} = useSWR(subName ? `/subs/${subName}` : null, fetcher);
