@@ -12,14 +12,7 @@ const SubPage = () => {
    const fileInputRef = useRef<HTMLInputElement>(null);
    const [ownSub, setOwnSub] = useState(false);
    const {authenticated, user} = useAuthState();
-   const fetcher = async(url: string) => {
-      try{
-         const res = await Axios.get(url);
-         return res.data
-      }catch(e : any) {
-         throw e.response.data;
-      }
-   }
+
 
 
    const uploadImage = async(event: ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +44,7 @@ const SubPage = () => {
    }
    console.log("subName",subName)
 
-   const {data: sub, error} = useSWR(subName ? `/subs/${subName}` : null, fetcher);
+   const {data: sub, error} = useSWR(subName ? `/subs/${subName}` : null);
 
    useEffect(() => {
       if(!sub || !user) return;
