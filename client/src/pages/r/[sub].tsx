@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useAuthState } from '../../context/auth';
+import Sidebar from '../../components/Sidebar';
 
 const SubPage = () => {
    const router = useRouter();
@@ -116,7 +117,8 @@ const SubPage = () => {
                   </div>
                   {/* 포스트의 사이드 바 */}
                   <div className="flex max-w-5xl px-4 pt-5 mx-auto">
-
+                     <div className="w-full md:mr-3 md:w-8/12"></div>
+                     <Sidebar sub={sub}/>
                   </div>
                </div>
             </React.Fragment>

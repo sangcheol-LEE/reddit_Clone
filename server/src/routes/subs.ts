@@ -14,9 +14,25 @@ import { unlinkSync } from "fs";
 
 const getSub = async(req:Request, res: Response) => {
    const name = req.params.name;
-   console.log("name", name)
    try{
       const sub = await Sub.findOneByOrFail({ name });
+
+      // 포스트를 생성한 후에 해당 sub에 속하는 포스트 정보들을 넣어주기
+
+      const posts = await Post.find({
+         where: {subName : sub.name},
+         order : {createAt : "DESC"},
+         relations : ["comments", "votes"]
+      })
+
+      sub.posts = posts;
+
+      if(res.locals.user) {
+         sub.posts.forEach((p) => p.setUserVote(res.locals.user))
+      }
+
+      console.log("subKing",sub)
+
       return res.json(sub)
    }catch(e) {
       return res.status(404).json({error: "커뮤니티를 찾을 수 없습니다."})
@@ -72,7 +88,7 @@ const createSub = async(req:Request,res: Response, next:Function) => {
 
 const topSubs = async(req:Request, res:Response) => {
    try{
-      const imageUrlExp = `COALESCE(s."imageUrn",'https://www.gravatar.com/avatar?d=mp&f=y')`
+      const imageUrlExp = `COALESCE('${process.env.APP_URL}/images/' ||s."imageUrn",'https://www.gravatar.com/avatar?d=mp&f=y')`
       const subs = await AppDataSource.createQueryBuilder()
       .select(
          `s.title, s.name, ${imageUrlExp} as "imageUrl", count(p.id) as "postCount"`
