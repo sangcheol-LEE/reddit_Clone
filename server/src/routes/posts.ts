@@ -78,8 +78,30 @@ const createPostComment = async(req:Request, res:Response) => {
    }
 }
 
+const getPostComments = async(req: Request, res: Response) => {
+   const {identifier,slug} = req.params;
+
+   try{
+      const post = await Post.findOneByOrFail({ identifier, slug});
+      const comments = await Comment.find({
+         where: {postId: post.id},
+         order: {createAt: "DESC"},
+         relations: ["votes"]
+      })
+
+      if(res.locals.user) {
+         comments.forEach((comment) => comment.setUserVote(res.locals.user))
+      }
+      return res.json(comments)
+   }catch(e) {
+      console.log("getPostComments",e)
+      return res.status(500).json({error: "문제가 발생했습니다."})
+   }
+}
+
 const router = Router();
 router.post("/", userMiddleWare, authMiddleWare, createPost);
 router.get("/:identifier/:slug", userMiddleWare, getPost);
 router.post("/:identifier/:slug/comments", userMiddleWare, createPostComment)
+router.get("/:identifier/:slug/comments", userMiddleWare, getPostComments)
 export default router
