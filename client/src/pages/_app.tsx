@@ -5,6 +5,7 @@ import { AuthProvider } from '../context/auth';
 import { useRouter } from 'next/router';
 import NavBar from '../components/NavBar';
 import { SWRConfig } from 'swr';
+import Head from 'next/head';
 
 export default function App({ Component, pageProps }: AppProps) {
   Axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL + "/api";
@@ -25,6 +26,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
 
     return (
+      <>
+        <Head>
+          <script src="https://kit.fontawesome.com/41b9e66469.js" crossOrigin="anonymous"></script>
+        </Head>
         <SWRConfig value={{
           fetcher
         }}>
@@ -35,6 +40,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </div>
           </AuthProvider>
         </SWRConfig>
+      </>
     )
 
 }

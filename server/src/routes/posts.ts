@@ -1,6 +1,7 @@
 import { Router ,Request,Response} from "express";
 import userMiddleWare from "../middlewares/user";
 import authMiddleWare from "../middlewares/auth";
+import Comment from "../entities/Comment";
 import Post from "../entities/Post";
 import Sub from "../entities/Sub";
 
@@ -52,7 +53,33 @@ const createPost = async(req: Request, res : Response) => {
    }
 }
 
+const createPostComment = async(req:Request, res:Response) => {
+   const {identifier, slug} = req.params;
+   const body = req.body.body;
+
+   try {
+      const post = await Post.findOneByOrFail({identifier, slug});
+      const comment = new Comment();
+      comment.body = body;
+      comment.user = res.locals.user;
+      comment.post = post;
+
+      if(res.locals.user) {
+         post.setUserVote(res.locals.user)
+      }
+
+      console.log("Comment", comment)
+      await comment.save();
+
+      return res.json(comment);
+   }catch(e) {
+      console.log("createPostComment",e)
+      return res.status(404).json({ error: "게시물을 찾을 수 없습니다." })
+   }
+}
+
 const router = Router();
 router.post("/", userMiddleWare, authMiddleWare, createPost);
-router.get("/:identifier/:slug", userMiddleWare, getPost)
+router.get("/:identifier/:slug", userMiddleWare, getPost);
+router.post("/:identifier/:slug/comments", userMiddleWare, createPostComment)
 export default router
