@@ -6,7 +6,7 @@ import { Post,Comment } from '../../../../types';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 import { useAuthState } from '../../../../context/auth';
-
+import CN from 'classnames';
 const PostPage = () => {
    const router = useRouter()
    const {identifier, sub , slug} = router.query
@@ -33,6 +33,30 @@ const PostPage = () => {
       }catch(e) {
          console.log("submitComment",e)
       }
+   }
+
+   const vote = async(value: number, comment?: Comment) => {
+      // 로그인 상태가 아니라면 로그인 페이지 이동
+      if(!authenticated) router.push("/login")
+
+      // 이미 클릭 한 vote 버튼을 눌렀을 시에는 reset
+      if(
+         (!comment && value === post?.userVote) ||
+         (comment && comment.userVote === value)
+         ) {
+            value = 0;
+         }
+
+      try {
+         await Axios.post("/votes", {
+            identifier,
+            slug,
+            commemtIdentifier: comment?.identifier,
+            value
+         })
+      }catch(e) {
+         console.log(e)
+      }
 
    }
    return (
@@ -43,6 +67,28 @@ const PostPage = () => {
                   post && (
                      <>
                         <div className="flex">
+                           {/* 좋아요 싫어요 기능 */}
+                              <div className="flex-shirink-0 w-10 py-2 text-center rounded-l">
+                                 {/* 좋아요 */}
+                                 <div
+                                    className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
+                                    onClick={() => vote(1)}
+                                 >
+                                    <i className={CN("fas fa-arrow-up" , {
+                                       "text-red-500" : post.userVote === 1
+                                    })}></i>
+                                 </div>
+                                 <p className="text-xs font-bold">{post.voteScore}</p>
+                                 {/* 싫어요 */}
+                                 <div
+                                    className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
+                                    onClick={() => vote(-1)}
+                                 >
+                                    <i className={CN("fas fa-arrow-down" , {
+                                       "text-red-500" : post.userVote === -1
+                                    })}></i>
+                                 </div>
+                              </div>
                            <div className="py-2 pr-2">
                               <div className="flex items-center">
                                  <p className="text-xs test-gray-400">
@@ -115,6 +161,28 @@ const PostPage = () => {
                         {
                            comments?.map(comment => (
                               <div className="flex" key={comment.identifier}>
+                                 {/* 좋아요 싫어요 기능 */}
+                              <div className="flex-shirink-0 w-10 py-2 text-center rounded-l">
+                                 {/* 좋아요 */}
+                                 <div
+                                    className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
+                                    onClick={() => vote(1, comment)}
+                                 >
+                                    <i className={CN("fas fa-arrow-up" , {
+                                       "text-red-500" : post.userVote === 1
+                                    })}></i>
+                                 </div>
+                                 <p className="text-xs font-bold">{post.voteScore}</p>
+                                 {/* 싫어요 */}
+                                 <div
+                                    className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
+                                    onClick={() => vote(-1,comment)}
+                                 >
+                                    <i className={CN("fas fa-arrow-down" , {
+                                       "text-red-500" : post.userVote === -1
+                                    })}></i>
+                                 </div>
+                              </div>
                                  <div className="py-2 pr-2">
                                     <p className="mb-1 text-xs leading-none">
                                        <Link href={`/u/${comment.username}`} className="mr-1 font-bold hover:underline">

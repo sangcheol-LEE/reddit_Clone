@@ -1,1 +1,0 @@
-{"c":["pages/_app","pages/r/[sub]/[identifier]/[slug]","webpack"],"r":["pages/r/[sub]/create"],"m":["./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?absolutePagePath=%2FUsers%2Fmac%2FDesktop%2Freddit_clone%2Fclient%2Fsrc%2Fpages%2Fr%2F%5Bsub%5D%2Fcreate.tsx&page=%2Fr%2F%5Bsub%5D%2Fcreate!","./src/pages/r/[sub]/create.tsx"]}
