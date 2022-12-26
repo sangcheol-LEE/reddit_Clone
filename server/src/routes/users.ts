@@ -18,7 +18,7 @@ const getUserData = async(req : Request, res: Response) => {
       // voteScore의 this.vote를 가져오기 위함이다.
       const posts = await Post.find({
          where: {username : user.username},
-         relations:["comments", "vote","sub"]
+         relations:["comments", "votes","sub"]
       })
 
       // 유저가 쓴 댓글목록 가져오기
@@ -38,8 +38,8 @@ const getUserData = async(req : Request, res: Response) => {
       //toJSON 해주는 이유는 ?
       // spread operator를 이용해서 새로운 객체로 복사를 할 때 인스턴스 상태로 하면,
       // @Expose를 이용한 getter는 들어가지 않는다. 그래서 객체로 바꾼 후 복사한다.
-      posts.forEach((p) => userData.push({type : "Post", ...p.toJSON()}));
-      comments.forEach((c) => userData.push({type : "Comment", ...c.toJSON()}));
+      posts.forEach((p) => userData.push({type : "Post", ...p.toJSON() }));
+      comments.forEach((c) => userData.push({type : "Comment", ...c.toJSON() }));
 
       // 최신 정보가 먼저 오게 순서정렬
       userData.sort((a,b) => {
