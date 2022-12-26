@@ -58,11 +58,9 @@ const PostPage = () => {
          })
          postMutate();
          commentMutate()
-         console.log("......mutate.")
       }catch(e) {
          console.log(e)
       }
-
    }
    console.log(".....post", post)
    return (
@@ -82,7 +80,7 @@ const PostPage = () => {
                                  >
                                     {
                                        post &&
-                                          post.userVote ===1 ?
+                                          post.userVote === 1 ?
                                              <FaArrowUp className="text-red-500"/>
                                              : <FaArrowUp />
                                     }
@@ -95,7 +93,7 @@ const PostPage = () => {
                                  >
                                     {
                                        post &&
-                                          post.userVote === - 1 ?
+                                          post.userVote === -1 ?
                                              <FaArrowDown className="text-blue-500"/>
                                              : <FaArrowDown />
                                     }

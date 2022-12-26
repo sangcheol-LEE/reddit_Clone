@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useAuthState } from '../../context/auth';
 import Sidebar from '../../components/Sidebar';
+import { Post } from '../../types';
+import PostCard from '../../components/PostCard';
 
 const SubPage = () => {
    const router = useRouter();
@@ -12,6 +14,8 @@ const SubPage = () => {
    const fileInputRef = useRef<HTMLInputElement>(null);
    const [ownSub, setOwnSub] = useState(false);
    const {authenticated, user} = useAuthState();
+   const {data: sub, error, mutate} = useSWR(subName ? `/subs/${subName}` : null);
+
 
 
 
@@ -42,16 +46,26 @@ const SubPage = () => {
          fileInput.click();
       }
    }
-   console.log("subName",subName)
 
-   const {data: sub, error} = useSWR(subName ? `/subs/${subName}` : null);
 
    useEffect(() => {
       if(!sub || !user) return;
       setOwnSub(authenticated && user.username === sub.username);
    }, [sub])
 
-   console.log("....subsubs",sub)
+   let renderPosts;
+
+   if(!sub) {
+      renderPosts = <p className="text-lg text-center">Loading....</p>
+   } else if(sub.posts.length === 0) {
+      renderPosts = <p className="text-lg text-center">현재 작성된 포스트가 없습니다.</p>
+   }else {
+      renderPosts = sub.posts.map((post: Post) => (
+         <PostCard key={post.identifier} post={post} subMutate={mutate}/>
+      ))
+   }
+
+
    return (
       <React.Fragment>
       {
@@ -109,7 +123,7 @@ const SubPage = () => {
                   </div>
                   {/* 포스트의 사이드 바 */}
                   <div className="flex max-w-5xl px-4 pt-5 mx-auto">
-                     <div className="w-full md:mr-3 md:w-8/12"></div>
+                     <div className="w-full md:mr-3 md:w-8/12">{renderPosts}</div>
                      <Sidebar sub={sub}/>
                   </div>
                </div>
