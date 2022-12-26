@@ -31,22 +31,22 @@ const UserPage = () => {
                            key={comment.identifier}
                            className="flex my-4 bg-white rounded"
                         >
-                           <div className="flex-shrink-0 w-10 py-10 text-center bg-bray-200 rounded-l">
+                           <div className="flex-shrink-0 w-10 py-10 text-center bg-white border-r rounded-l">
                               <i className="text-gray-500 fas fa-comment-alt fa-xs"></i>
                            </div>
                            <div className="w-full p-2">
                               <p className="mb-2 text-xs text-gray-500">
                                  <Link href={`/u/${comment.username}`} className="cursor-pointer hover:underline">
                                     {comment.username}
-                                 </Link>
+                                 </Link>{" "}
                                  <span> commented on </span>
                                  <Link href={`/u/${comment.post?.url}`} className="font-semibold cursor-pointer hover:underline">
                                     {comment.post?.title}
-                                 </Link>
-                                 <span>*</span>
+                                 </Link>{" "}
+                                 <span>*</span>{" "}
                                  <Link href={`/u/${comment.post?.subName}`} className="text-black cursor-pointer hover:underline">
                                     /r/{comment.post?.subName}
-                                 </Link>
+                                 </Link>{" "}
                               </p>
                               <hr />
                               <p className="p-1">{comment.body}</p>
@@ -69,7 +69,7 @@ const UserPage = () => {
                />
                <p className="pl-2 text-md">{data.user.username}</p>
             </div>
-            <div className="p-3">
+            <div className="p-2 bg-white rounded-b">
                <p>
                   {dayjs(data.user.createAt).format("YYYY.MM.DD")} 가입
                </p>

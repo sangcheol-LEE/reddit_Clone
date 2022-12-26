@@ -87,6 +87,7 @@ subMutate,mutate
 
          {/* 포스트 데이터 */}
          <div className="w-full p-2">
+            <div className="flex items-center">
             {!isInSubPage && (
                <div className="flex items-center">
                   <Link href={`/r/${subName}`}>
@@ -113,8 +114,10 @@ subMutate,mutate
                   <Link href={`/u/${username}`} className="mx-1 hover:underline">/u/{username}</Link>
                   <Link href={url}>{dayjs(createdAt).format("YYYY-MM-DD HH:mm")}</Link>
                </p>
+            </div>
 
-            <Link href={url} className="my-1 text-lg font-medium">
+            <Link href={url}
+                  className="my-1 text-lg font-medium">
                {title}
             </Link>
             {body && <p className="my-1 text-sm">{body}</p>}
