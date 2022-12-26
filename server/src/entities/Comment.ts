@@ -10,7 +10,7 @@ import { makeId } from "../utils/helper";
 export default class Comment extends BaseEntity {
   @Index()
   @Column()
-  indentifier: string
+  identifier: string
 
   @Column()
   body: string;
@@ -48,6 +48,6 @@ export default class Comment extends BaseEntity {
 
   @BeforeInsert()
   makeId() {
-    this.indentifier = makeId(8)
+    this.identifier = makeId(8)
   }
 }

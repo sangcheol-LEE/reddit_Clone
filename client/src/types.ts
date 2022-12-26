@@ -39,7 +39,7 @@ export interface Post {
 }
 
 export interface Comment {
-   identifier:string;
+   identifier :string;
    body: string;
    username :string;
    createdAt :string;

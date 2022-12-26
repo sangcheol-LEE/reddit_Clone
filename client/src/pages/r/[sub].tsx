@@ -51,8 +51,7 @@ const SubPage = () => {
       setOwnSub(authenticated && user.username === sub.username);
    }, [sub])
 
-
-   console.log("subsubs",sub)
+   console.log("....subsubs",sub)
    return (
       <React.Fragment>
       {
