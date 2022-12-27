@@ -40,6 +40,12 @@
 [포스트 생성 및 포스트 페이지 및 댓글]
 ![스크린샷 2022-12-27 오전 10 45 37](https://user-images.githubusercontent.com/89136968/209598293-5e9309cb-172e-4c8b-98df-4d92e8dc6f27.png)
 
-[해당 유저가 만든 포스트 및 커뮤니티]
+[해당 유저 작업이력]
 ![스크린샷 2022-12-27 오전 10 48 10](https://user-images.githubusercontent.com/89136968/209598410-854cb9c8-6bd6-4dd0-b753-d427d4f4ac5f.png)
+
+[해당 유저 포스트 생성 이력]
+![스크린샷 2022-12-27 오전 10 51 56](https://user-images.githubusercontent.com/89136968/209598692-6aa5fa2a-9f46-42a3-a1d7-6260f02979c5.png)
+
+
+
 
