@@ -30,6 +30,16 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+    "/r/[sub]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/r/[sub].js"
+    ],
+    "/subs/create": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/subs/create.js"
+    ],
     "/u/[username]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
