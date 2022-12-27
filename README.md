@@ -31,4 +31,15 @@
 타입스크립트는 정말 진심으로 밀고 나가기로 다짐했다.
 앞으로의 공부방향을 정할 수 있던 토이 프로젝트였다.
 
+[메인 페이지]
 ![스크린샷 2022-12-27 오전 10 40 37](https://user-images.githubusercontent.com/89136968/209597823-f1ce31b3-e831-4f96-9b69-c3d1090e5e03.png)
+
+[커뮤니티 생성]
+![스크린샷 2022-12-27 오전 10 43 41](https://user-images.githubusercontent.com/89136968/209598268-b67cc86f-fbed-4f5a-b29c-9cf8be845a1b.png)
+
+[포스트 생성 및 포스트 페이지 및 댓글]
+![스크린샷 2022-12-27 오전 10 45 37](https://user-images.githubusercontent.com/89136968/209598293-5e9309cb-172e-4c8b-98df-4d92e8dc6f27.png)
+
+[해당 유저가 만든 포스트 및 커뮤니티]
+![스크린샷 2022-12-27 오전 10 48 10](https://user-images.githubusercontent.com/89136968/209598410-854cb9c8-6bd6-4dd0-b753-d427d4f4ac5f.png)
+
